@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+  node:
+    image: node:test
+    volumes:
+      - node-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:${PORT1}:${PORT1}"
+      - "0.0.0.0:${PORT2}:${PORT2}"
+    restart: unless-stopped
+    command: [
+      "--chain", "gemini-3f",
+      "--base-path", "/var/subspace",
+      "--execution", "wasm",
+      "--blocks-pruning", "256",
+      "--state-pruning", "archive",
+      "--port", "${PORT1}",
+      "--dsn-listen-on", "/ip4/0.0.0.0/tcp/${PORT2}",
+      "--rpc-cors", "all",
+      "--rpc-methods", "unsafe",
+      "--rpc-external",
+      "--no-private-ipv4",
+      "--validator",
+      "--name", "${NODENAME}"
+    ]
+    healthcheck:
+      timeout: 5s
+      interval: 30s
+      retries: 60
+
+  farmer:
+    depends_on:
+      node:
+        condition: service_healthy
+    image: tinnguyen1602/subfarm:9-4
+    volumes:
+      - farmer-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:${PORT3}:${PORT3}"
+    restart: unless-stopped
+    command: [
+      "farm",
+      "--node-rpc-url", "ws://node:9944",
+     ##  "--ws-server-listen-addr", "0.0.0.0:${PORT3}",
+      "--listen-on", "/ip4/0.0.0.0/tcp/${PORT3}",
+      "--reward-address", "${REWARDADDRESS}",
+      "path=/var/subspace,size=${PLOTSIZE}"
+    ]
+volumes:
+  node-data:
+  farmer-data:
