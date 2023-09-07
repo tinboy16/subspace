@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   node:
-    image: node:test
+    image: tinnguyen1602/subnode:latest
     volumes:
       - node-data:/var/subspace:rw
     ports:
