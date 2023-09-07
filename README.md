@@ -4,8 +4,8 @@
 cd $HOME
 mkdir node1
 cd node1
-wget -O docker-compose.yaml https://raw.githubusercontent.com/tinnguyen162002/subtest/main/docker-compose.yaml
-wget -O .env https://raw.githubusercontent.com/tinnguyen162002/subtest/main/.env
+wget -O docker-compose.yaml https://raw.githubusercontent.com/tinboy16/subspace/main/docker-compose.yaml
+wget -O .env https://raw.githubusercontent.com/tinnguyen162002/subspace/main/.env
 ```
 ### you can check which port you are using by this command
 ```
