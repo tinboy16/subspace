@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   node:
-    image: tinnguyen1602/subnode:latest
+    image: tinnguyen1602/subnode:${IMAGETAG}
     volumes:
       - node-data:/var/subspace:rw
     ports:
@@ -32,7 +32,7 @@ services:
     depends_on:
       node:
         condition: service_healthy
-    image: tinnguyen1602/subfarm:9-4
+    image: tinnguyen1602/subfarm:${IMAGETAG}
     volumes:
       - farmer-data:/var/subspace:rw
     ports:
